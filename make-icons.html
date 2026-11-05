@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Генератор иконок для PWA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+            background: #f5f5f5;
+        }
+        .canvas-container {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        canvas {
+            border: 1px solid #ccc;
+            background: #d98eac;
+            display: block;
+            margin: 10px auto;
+        }
+        .controls {
+            margin: 20px 0;
+        }
+        input[type="text"], input[type="color"] {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background: #d98eac;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .download-area {
+            margin-top: 20px;
+        }
+        .download-link {
+            display: block;
+            margin: 10px 0;
+            color: #d98eac;
+            font-weight: bold;
+            text-decoration: none;
+        }
+        .download-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🎨 Генератор иконок</h1>
+    <p>Создайте иконки для вашего приложения, чтобы оно открывалось как приложение на телефоне.</p>
+
+    <div class="controls">
+        <label>
+            Буква (например, А или Е):
+            <input type="text" id="letterInput" value="А" maxlength="1" style="width: 60px; text-align: center;">
+        </label>
+        <br><br>
+        <label>
+            Цвет фона:
+            <input type="color" id="colorInput" value="#d98eac">
+        </label>
+    </div>
+
+    <div class="canvas-container">
+        <div>
+            <strong>192x192 px</strong>
+            <canvas id="canvas192" width="192" height="192"></canvas>
+        </div>
+        <div>
+            <strong>512x512 px</strong>
+            <canvas id="canvas512" width="512" height="512"></canvas>
+        </div>
+    </div>
+
+    <div class="download-area" id="downloadArea" style="display:none;">
+        <a href="#" id="download192" class="download-link">Скачать icon-192.png</a>
+        <a href="#" id="download512" class="download-link">Скачать icon-512.png</a>
+        <p style="font-size: 12px; color: #666; margin-top: 10px;">Скачайте и положите эти файлы в папку <strong>icons/</strong></p>
+    </div>
+
+    <script>
+        const letterInput = document.getElementById('letterInput');
+        const colorInput = document.getElementById('colorInput');
+        const canvas192 = document.getElementById('canvas192');
+        const canvas512 = document.getElementById('canvas512');
+        const download192 = document.getElementById('download192');
+        const download512 = document.getElementById('download512');
+        const downloadArea = document.getElementById('downloadArea');
+
+        function drawIcon(canvas, letter, bgColor) {
+            const ctx = canvas.getContext('2d');
+            const size = canvas.width;
+
+            // Фон
+            ctx.fillStyle = bgColor;
+            ctx.fillRect(0, 0, size, size);
+
+            // Буква
+            ctx.fillStyle = '#ffffff';
+            const fontSize = size > 100 ? size / 2.5 : 40;
+            ctx.font = `bold ${fontSize}px Arial, sans-serif`;
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(letter, size / 2, size / 2 + 5);
+        }
+
+        function updateAll() {
+            const letter = letterInput.value.trim().toUpperCase() || 'А';
+            const bgColor = colorInput.value || '#d98eac';
+
+            drawIcon(canvas192, letter, bgColor);
+            drawIcon(canvas512, letter, bgColor);
+
+            const data192 = canvas192.toDataURL('image/png');
+            const data512 = canvas512.toDataURL('image/png');
+
+            download192.href = data192;
+            download192.download = 'icon-192.png';
+            download512.href = data512;
+            download512.download = 'icon-512.png';
+
+            downloadArea.style.display = 'block';
+        }
+
+        // Слушатели событий
+        letterInput.addEventListener('input', updateAll);
+        colorInput.addEventListener('input', updateAll);
+
+        // Рисуем сразу при загрузке
+        updateAll();
+    </script>
+</body>
+</html>
