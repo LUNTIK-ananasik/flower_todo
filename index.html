@@ -1,3 +1,28 @@
+<!-- ✨ТЕБЕНЬКОВА ЕКАТЕРИНА МИХАЙЛОВНА ИСИП-413 ✨-->
+
+<!-- Суть приложения : создавать карсивые заметки, мое приложение умеет:
+❤️ Добавлять задачи
+❤️ Отмечать выполненные задачи
+❤️ Искать задачи
+❤️ Фильтровать список: Все / Активные / Выполненные
+❤️ Редактировать задачу (двойным кликом на задачку)
+❤️ Удалять задачи
+❤️ Регистрироваться и входить
+❤️ Устанавливаться на телефон как приложение
+❤️ Работать офлайн и подстраиваться под тёмную тему системы -->
+
+<!-- ## 🛠 Технологический стек
+
+| Слой | Технология | Назначение |
+|------|-----------|------------|
+| **Разметка** | HTML5 | Семантическая структура приложения |
+| **Стили** | CSS3 (Custom Properties, Flexbox, Grid, анимации) | Оформление, темы, адаптив |
+| **Логика** | Vanilla JavaScript (ES6+) | Работа с DOM, состоянием, событиями |
+| **Хранение** | `localStorage` | Задачи и аккаунты (локально, без сервера) |
+| **PWA** | Web App Manifest + Service Worker | Установка на устройство, офлайн-режим |
+| **Тема** | CSS `prefers-color-scheme` | Автоматическая тёмная тема |
+| **Иконки** | Эмодзи + inline SVG (data URI) | Без внешних зависимостей | 
+-->
 
 <!DOCTYPE html>
 <html lang="ru">
@@ -7,7 +32,7 @@
     <meta name="theme-color" content="#d98eac">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-title" content="Задачи">
-    <title>Мои задачи</title>
+    <title>Задачки</title>
     <link rel="manifest" href="manifest.json">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
     <style>
@@ -1109,13 +1134,10 @@
             return li;
         }
 
-        function formatDate(iso) {
-            const [y, m, d] = iso.split("-");
-            return `
-d
-.
-d.{m}.${y}`;
-        }
+function formatDate(iso) { 
+    const [y, m, d] = iso.split("-"); 
+    return `${d}. ${m}.${y}`; 
+}
 
         // ===== Добавление =====
         function addTask() {
